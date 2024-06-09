@@ -116,10 +116,10 @@
         }
       }
     },
-    "/api/artist": {
+    "/api/canciones": {
       "get": {
         "tags": [
-          "Artista"
+          "Canciones"
         ],
         "description": "",
         "parameters": [
@@ -140,12 +140,56 @@
       },
       "post": {
         "tags": [
-          "Artista"
+          "Canciones"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "artist": {
+                  "example": "any"
+                },
+                "numberReplays": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/canciones/{id}": {
+      "get": {
+        "tags": [
+          "Canciones"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

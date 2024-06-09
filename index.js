@@ -4,18 +4,10 @@ const mongoose = require("mongoose");
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger-output.json');
 
-// const swaggerUi = require('swagger-ui-express')
-// const swaggerDocument = require('./swagger-output.json');
-
 //Routers
-// const loginRouter = require("./src/modules/login/login.routes");
-// const reclamoRouter = require("./src/modules/claim/claim.routes");
-const usuarioRouter = require("./src/modules/user/user.routes");
-// const areaRouter = require("./src/modules/area/area.routes");
-// const claimTypeRoute = require("./src/modules/claimType/claimType.routes");
-// const auditRoute = require("./src/modules/audit/audit.routes");
-// const notifyRoute = require("./src/modules/notify/notify.routes");
 
+const usuarioRouter = require("./src/modules/user/user.routes");
+const cancionesRouter = require("./src/modules/canciones/canciones.routes")
 // Secure setup
 const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -44,13 +36,9 @@ app.get("/", async (request, response) => {
       return response.send("Beckend reclamos node js express");
 });
 // Routers
-// app.use(loginRouter);
-// app.use(reclamoRouter);
+
 app.use(usuarioRouter);
-// app.use(areaRouter);
-// app.use(claimTypeRoute);
-// app.use(auditRoute);
-// app.use(notifyRoute);
+app.use(cancionesRouter);
 
 app.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
