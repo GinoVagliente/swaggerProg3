@@ -7,10 +7,8 @@ const router = express.Router();
 router.get("/api/canciones", async (req, res) => {
   // #swagger.tags = ['Canciones']
   try {
-    params = JSON.parse(req.headers['params'])
-
-    let paginated = await cancionesService.paginated(params)
-    return res.status(200).send(paginated);
+    const data = await cancionesService.findAll();
+    return res.status(200).send(data);
 
   } catch (error) {
     console.log(error)
@@ -34,9 +32,9 @@ router.get("/api/canciones/:id", async (req, res) => {
 router.post("/api/canciones", async (req, res) => {
   // #swagger.tags = ['Canciones']
   try {
-    const { name, artist, numberReplays } = req.body; // Extraer las propiedades relevantes
-    const newSong = { name, artist, numberReplays }; // Crear un nuevo objeto de canción con esas propiedades
-    const song = await cancionesService.save(newSong); // Guardar la nueva canción
+    const { name, artist, numberReplays } = req.body;
+    const newSong = { name, artist, numberReplays };
+    const song = await cancionesService.save(newSong);
     return res.status(201).send(song);
 
   } catch (error) {
@@ -45,5 +43,18 @@ router.post("/api/canciones", async (req, res) => {
   }
 });
 
+// DELETE /api/user/:id
+router.delete("/api/canciones/:id", async (req, res) => {
+  // #swagger.tags = ['Canciones']
+  try {
+    const cancionId = req.params.id;
+    await cancionesService.remove(cancionId);
+    return res.status(200).send("Cancion eliminada correctamente.");
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
 
 module.exports = router;

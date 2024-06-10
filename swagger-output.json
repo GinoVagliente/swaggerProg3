@@ -38,9 +38,60 @@
           "Usuario"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "example": "any"
+                },
+                "lastname": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "domicilio": {
+                  "example": "any"
+                },
+                "celular": {
+                  "example": "any"
+                },
+                "documento": {
+                  "example": "any"
+                },
+                "rol": {
+                  "example": "any"
+                },
+                "area": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/userAll": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"
@@ -122,13 +173,6 @@
           "Canciones"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "params",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -175,6 +219,28 @@
     },
     "/api/canciones/{id}": {
       "get": {
+        "tags": [
+          "Canciones"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
         "tags": [
           "Canciones"
         ],

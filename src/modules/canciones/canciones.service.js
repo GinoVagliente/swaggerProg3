@@ -1,42 +1,23 @@
 const cancionesModel = require('../../models/canciones')
-const pager = require("../../utils/pager");
 
-
-async function createIfNotExists(decoded, response) {
-    let user = await findOne(decoded.email)
-    if(!user){
-        user = {firtname:decoded.given_name, lastname: decoded.family_name ,email:decoded.email}
-        await save(user)
-    }
-    return user   
-
+async function findOneById(_id) {
+  return await cancionesModel.findById(_id).populate('artist').exec()
 }
-async function findOneById(_id){
-  return await cancionesModel.findById(_id).exec()
-}
-async function findOne(email){
-    return await cancionesModel.findOne({email:email}).exec()
+async function findOne(email) {
+  return await cancionesModel.findOne({ email: email }).exec()
 }
 
-async function save(user){
-    let _user = new cancionesModel(user)  
-    return await _user.save()
+async function findAll() {
+  return await cancionesModel.find({}).populate('artist');
 }
 
-async function paginated(params) {
-    let perPage = params.perPage?params.perPage:10, page = Math.max(0, params.page)
-    let filter = params.filter?params.filter:{}
-    let sort = params.sort?params.sort:{}
-  
-    let count = await userModel.countDocuments(filter)
-    let data = await userModel.find(filter)
-      .limit(perPage)
-      .skip(perPage * page)
-      .sort(sort)
+async function save(user) {
+  let _user = new cancionesModel(user)
+  return await _user.save()
+}
 
-      .exec();
-  
-    return pager.createPager(page,data,count,perPage)
-  }
+async function remove(id) {
+  return await cancionesModel.findOneAndDelete({ _id: id }).exec();
+}
 
-module.exports = { createIfNotExists,findOneById, findOne, save, paginated};
+module.exports = {findOneById, findOne, save, findAll, remove};

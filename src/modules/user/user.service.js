@@ -22,6 +22,10 @@ async function save(user){
     return await _user.save()
 }
 
+async function findAll() {
+  return await userModel.find({})
+}
+
 async function paginated(params) {
     let perPage = params.perPage?params.perPage:10, page = Math.max(0, params.page)
     let filter = params.filter?params.filter:{}
@@ -48,4 +52,4 @@ async function remove(id) {
   
 
 
-module.exports = { createIfNotExists,findOneById, findOne, save, paginated, update, remove };
+module.exports = { createIfNotExists,findOneById, findOne, save, paginated, update, remove, findAll};

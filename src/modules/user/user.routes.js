@@ -18,6 +18,19 @@ router.get("/api/user", async (req, res) => {
   }
 });
 
+router.get("/api/userAll", async (req, res) => {
+  // #swagger.tags = ['Usuario']
+  try {
+    const data = await userService.findAll();
+    return res.status(200).send(data);
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send(error);
+  }
+});
+
+
 // GET /api/user/:id
 router.get("/api/user/:id",  async (req, res) => {
   // #swagger.tags = ['Usuario']
@@ -36,7 +49,8 @@ router.get("/api/user/:id",  async (req, res) => {
 router.post("/api/user", async (req, res) => {
   // #swagger.tags = ['Usuario']
   try {
-    const newUser = req.body;
+    const { firstname, lastname, email, domicilio, celular, documento, rol, area } = req.body;
+    const newUser = { firstname, lastname, email, domicilio, celular, documento, rol, area };
     console.log(newUser);
     const user = await userService.save(newUser);
     return res.status(201).send(user);

@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
 const cancionesSchema = new mongoose.Schema({
     name: String,
-    artist: String,
+    artist: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     numberReplays: Number
-})
+});
+
 
 const cancionesModel = mongoose.model("Canciones", cancionesSchema);
 
