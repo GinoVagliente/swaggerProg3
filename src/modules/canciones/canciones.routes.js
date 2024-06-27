@@ -7,8 +7,10 @@ const router = express.Router();
 router.get("/api/canciones", async (req, res) => {
   // #swagger.tags = ['Canciones']
   try {
-    const data = await cancionesService.findAll();
-    return res.status(200).send(data);
+    params = JSON.parse(req.headers['params'])
+
+    let paginated = await cancionesService.paginated(params)
+    return res.status(200).send(paginated);
 
   } catch (error) {
     console.log(error)
@@ -16,18 +18,19 @@ router.get("/api/canciones", async (req, res) => {
   }
 });
 
-router.get("/api/canciones/:id", async (req, res) => {
+router.get("/api/cancionesQuery/", async (req, res) => {
   // #swagger.tags = ['Canciones']
   try {
-    const id = req.params.id
-    let respuesta = await cancionesService.findOneById(id)
+    const id = req.query.id;
+    const respuesta = await cancionesService.findOneById(id);
     return res.status(200).send(respuesta);
 
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send(error);
   }
 });
+
 
 router.post("/api/canciones", async (req, res) => {
   // #swagger.tags = ['Canciones']
@@ -43,11 +46,26 @@ router.post("/api/canciones", async (req, res) => {
   }
 });
 
-// DELETE /api/user/:id
-router.delete("/api/canciones/:id", async (req, res) => {
+router.put("/api/canciones/",  async (req, res) => {
   // #swagger.tags = ['Canciones']
   try {
-    const cancionId = req.params.id;
+    const cancionId = req.query.id;
+    const updatedCancion = req.body;
+    const cancion = await cancionesService.update(cancionId, updatedCancion);
+    return res.status(200).send(cancion);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
+
+
+// DELETE /api/user/:id
+router.delete("/api/canciones/", async (req, res) => {
+  // #swagger.tags = ['Canciones']
+  try {
+    const cancionId = req.query.id;
     await cancionesService.remove(cancionId);
     return res.status(200).send("Cancion eliminada correctamente.");
 

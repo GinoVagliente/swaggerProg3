@@ -173,6 +173,13 @@
           "Canciones"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "params",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -217,7 +224,7 @@
         }
       }
     },
-    "/api/canciones/{id}": {
+    "/api/cancionesQuery/": {
       "get": {
         "tags": [
           "Canciones"
@@ -226,8 +233,30 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/canciones/": {
+      "put": {
+        "tags": [
+          "Canciones"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
             "type": "string"
           }
         ],
@@ -248,8 +277,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "type": "string"
           }
         ],
