@@ -1,58 +1,48 @@
-require('dotenv').config()
-const express = require('express')
-const mongoose = require("mongoose");
-const swaggerUi = require('swagger-ui-express')
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
-
-//Routers
-
-const usuarioRouter = require("./src/modules/user/user.routes");
-const cancionesRouter = require("./src/modules/canciones/canciones.routes")
-// Secure setup
 const { expressjwt: jwt } = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const app = express()
-const port = process.env.PORT
+const usuarioRouter = require('./src/modules/user/user.routes');
+const cancionesRouter = require('./src/modules/canciones/canciones.routes');
 
+const app = express();
+const port = process.env.PORT;
 
 // Enable CORS
-app.use(cors());
-
-// Enable the use of request body parsing middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
+app.use(cors({
+  origin: 'https://prog3-front.vercel.app', // Cambia esto a la URL de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Origin', 'X-Requested-With', 'Content-Type', 'Accept',
+    'X-UserId', 'X-Nonce', 'X-Secret', 'X-Ts', 'X-Sig',
+    'X-Vendor-Sig', 'X-Vendor-Apikey', 'X-Vendor-Nonce',
+    'X-Vendor-Ts', 'X-ProfileId', 'X-Authorization', 'Authorization', 'Token',
+    'Pragma', 'Cache-Control', 'Expires'
+  ]
 }));
 
+// Enable request body parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-mongoose.connect(
-  process.env.DB_RECLAMO, { useNewUrlParser: true, useUnifiedTopology: true }
-);
+mongoose.connect(process.env.DB_RECLAMO, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.get("/", async (request, response) => {
-      return response.send("Beckend reclamos node js express");
+app.get('/', async (request, response) => {
+  return response.send('Backend reclamos node js express');
 });
-// Routers
 
+// Routers
 app.use(usuarioRouter);
 app.use(cancionesRouter);
 
-app.all('*', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, X-UserId, X-Nonce' +
-    ', X-Secret, X-Ts, X-Sig, X-Vendor-Sig, X-Vendor-Apikey, X-Vendor-Nonce, X-Vendor-Ts, X-ProfileId' +
-    ', X-Authorization, Authorization, Token, Pragma, Cache-Control, Expires');
-  res.header('Access-Control-Allow-Methods', 'HEAD,OPTIONS,GET,PUT,POST,DELETE');
-  next();
-});
-var options = {
-  explorer: true
-};
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument,options))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
