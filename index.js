@@ -16,16 +16,18 @@ const port = process.env.PORT;
 
 // Enable CORS
 app.use(cors({
-  origin: 'https://prog3front.vercel.app', // Cambia esto a la URL de tu frontend
+  origin: 'https://prog3front.vercel.app', // URL de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Origin', 'X-Requested-With', 'Content-Type', 'Accept',
     'X-UserId', 'X-Nonce', 'X-Secret', 'X-Ts', 'X-Sig',
     'X-Vendor-Sig', 'X-Vendor-Apikey', 'X-Vendor-Nonce',
     'X-Vendor-Ts', 'X-ProfileId', 'X-Authorization', 'Authorization', 'Token',
-    'Pragma', 'Cache-Control', 'Expires'
+    'Pragma', 'Cache-Control', 'Expires',
+    'params' // Añade 'params' aquí
   ]
 }));
+
 
 // Enable request body parsing
 app.use(bodyParser.json());
