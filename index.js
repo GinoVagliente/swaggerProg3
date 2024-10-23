@@ -16,7 +16,7 @@ const port = process.env.PORT;
 
 // Enable CORS
 app.use(cors({
-  origin: 'https://prog3-front.vercel.app', // Cambia esto a la URL de tu frontend
+  origin: 'https://prog3front.vercel.app/', // Cambia esto a la URL de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Origin', 'X-Requested-With', 'Content-Type', 'Accept',
